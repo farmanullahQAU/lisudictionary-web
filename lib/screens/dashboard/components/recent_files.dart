@@ -11,33 +11,29 @@ import 'package:lottie/lottie.dart';
 import '../../../constants.dart';
 
 
-class RecentFiles extends StatelessWidget {
+class WordsTable extends StatelessWidget {
 
 
-   RecentFiles({
+  WordsTable({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RecentController>(
-      builder:(controller)=> Container(
-        padding: EdgeInsets.all(defaultPadding),
-        decoration: BoxDecoration(
-          color: secondaryColor,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-        child: SizedBox(
-          width: double.infinity,
-          child:
+      builder:(controller)=> Card(
+        color: secondaryColor,
+        child: FutureBuilder(
+          future: Get.find<FirestoreService>().getWords(),
+          builder: (BuildContext context, AsyncSnapshot<List<Word>> snapshot) {
 
-          FutureBuilder(
-            future: Get.find<FirestoreService>().getWords(),
-            builder: (BuildContext context, AsyncSnapshot<List<Word>> snapshot) {
+            if(snapshot.hasData)
+            {
+           return   SizedBox(
+             width: double.infinity,
+             child: DataTable2(
 
-              if(snapshot.hasData)
-              {
-             return   DataTable2(
+
                   columnSpacing: defaultPadding,
                   minWidth: 600,
                   columns: [
@@ -53,6 +49,9 @@ class RecentFiles extends StatelessWidget {
                     DataColumn(
                       label: Text("Action"),
                     ),
+                    DataColumn(
+                      label: Text("Edit"),
+                    ),
                   ],
 
 
@@ -63,25 +62,22 @@ class RecentFiles extends StatelessWidget {
                   // ),
 
 
-                );
+                ),
+           );
+
+            }
+            if(!snapshot.hasData)
+              {
+               return  AlertDialog(
+                 content: Lottie.asset("assets/lottie/loader.json",width: Get.width*0.1,height: Get.width*0.1),
+                 elevation: 0.0,
+                 backgroundColor: secondaryColor,
+               );
+
 
               }
-              if(!snapshot.hasData)
-                {
-                 return  AlertDialog(
-                   content: Lottie.asset("assets/lottie/loader.json",width: Get.width*0.1,height: Get.width*0.1),
-                   elevation: 0.0,
-                   backgroundColor: secondaryColor,
-                 );
-
-           //   BotToast.showWidget(toastBuilder: (_)=>Center(child: Text("lllll")));
-
-                }
-              return const Text("Error");
-            },)
-
-
-        ),
+            return const Text("Something went wrong");
+          },),
       ),
     );
   }
@@ -90,9 +86,19 @@ class RecentFiles extends StatelessWidget {
 DataRow recentFileDataRow(Word? fileInfo,int index) {
   final controller=Get.find<RecentController>();
   return DataRow(
+
     cells: [
 
-      DataCell(Text(fileInfo?.word??"")),
+      DataCell(
+
+
+
+
+          Text(fileInfo?.word??""),
+
+
+
+      ),
       DataCell(Text(fileInfo?.engDefinition??"")),
 
       DataCell(Text("${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}")),
@@ -119,6 +125,16 @@ await controller.myAction(fileInfo,true);
   ])
 
   ),
+      DataCell(
+
+
+          Icon(Icons.edit),
+      onTap: (){
+controller.updateWord(fileInfo!);
+
+      }
+      )
+
     ],
   );
 }

@@ -76,6 +76,7 @@ class Word {
 
   Word.fromJson(Map data, String wordId,) {
     id=wordId;
+    word=data["word"];
     isVerified = data["isVerified"];
     engDefinition = data["engDefinition"];
     engExamples =
@@ -99,6 +100,7 @@ class Word {
 
       'burmerDefinition':burmerDefinition??"",
       'burmerExamples':burmerExamples??null,
+      'word':word??""
 
     };
   }

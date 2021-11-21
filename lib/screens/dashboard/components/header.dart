@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lisudictionary_web/controllers/MenuController.dart';
+import 'package:lisudictionary_web/controllers/user_controller.dart';
 
 import '../../../constants.dart';
 import '../../../responsive.dart';
@@ -64,7 +65,9 @@ class ProfileCard extends StatelessWidget {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("Ahsi"),
+              child:Get.find<UserController>().currentUser!=null? Text(Get.find<UserController>().currentUser?.name??""):
+              Text("Ahsi")
+              ,
             ),
           Icon(Icons.keyboard_arrow_down),
         ],

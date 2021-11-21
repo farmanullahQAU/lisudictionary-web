@@ -43,6 +43,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.3.8
   lottie: ^1.2.1
+  firebase_auth: ^3.2.0
+  get_storage: ^2.0.3
 
 dev_dependencies:
   flutter_test:

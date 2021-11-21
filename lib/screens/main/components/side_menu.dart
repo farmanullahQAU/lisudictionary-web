@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:lisudictionary_web/core/services/auth_services.dart';
+import 'package:lisudictionary_web/core/services/get_storage_services.dart';
 
 import '../../profile.dart';
 
@@ -60,9 +62,9 @@ class SideMenu extends StatelessWidget {
 
 
               BotToast.showLoading();
-              Future.delayed(Duration(seconds: 2)).then((value) {
+              Future.delayed(Duration(seconds: 2)).then((value) async {
+await Get.find<AuthService>().signOut();
 
-              BotToast.showText(text: "Logout successfully");
               BotToast.closeAllLoading();
               });
             },

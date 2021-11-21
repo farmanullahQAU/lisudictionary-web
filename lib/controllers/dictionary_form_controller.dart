@@ -6,6 +6,9 @@ import 'package:lisudictionary_web/models/word_model.dart';
 import 'package:lisudictionary_web/screens/dashboard/components/recent_files.dart';
 
 class DictFormController extends GetxController{
+  bool isUpdate=false;
+  //word clicked to update
+  Word? currentWord;
   TextEditingController? wordController;
   TextEditingController? engDefController;
 
@@ -26,6 +29,7 @@ class DictFormController extends GetxController{
   GlobalKey<FormState>? formKey=GlobalKey<FormState>();
   @override
   void onInit() {
+    isUpdate=false;
     wordController=TextEditingController();
     engDefController=TextEditingController();
     lisuDefController=TextEditingController();
@@ -42,11 +46,12 @@ class DictFormController extends GetxController{
     super.onInit();
   }
 
-  addWord()
+  addOrUpdate()
   async {
 
     final word = Word(
-      isVerified: false,
+      //
+      isVerified:isUpdate==true?currentWord?.isVerified: false,
       word: wordController?.text,
       engDefinition:
       engDefController?.text,
@@ -79,9 +84,45 @@ class DictFormController extends GetxController{
             ""
       ],
     );
-
+isUpdate==true?await  Get.find<FirestoreService>().updateWord(word,currentWord?.id):
     await Get.find<FirestoreService>().addWord(word);
-    print('aaddddedd successfully');
+
+
+  }
+
+
+
+  initFields(Word word)
+  {
+    //initilize current word
+    currentWord=word;
+    wordController?.text=word.word??"";
+    engDefController?.text=word.engDefinition??"";
+    lisuDefController?.text=word.lisuDefinition??"";
+
+    burmeseDefController?.text=word.burmerDefinition??"";
+
+
+    engDefController?.text=word.engDefinition??"";
+    if(word.engExamples!=null)
+      {
+        engExample1Controller?.text=word.engExamples![0];
+        engExample2Controller?.text=word.engExamples![1];
+
+      }
+    if(word.burmerExamples!=null)
+    {
+      burmeseExample1Controller?.text=word.burmerExamples![0];
+      burmeseExample2Controller?.text=word.burmerExamples![1];
+
+    }
+    if(word.lisuExamples!=null)
+    {
+      lisuExample1Controller?.text=word.lisuExamples![0];
+      lisuExample2Controller?.text=word.lisuExamples![1];
+
+    }
+
 
   }
 

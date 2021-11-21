@@ -224,8 +224,9 @@ class DictionarForm extends StatelessWidget {
                                           false) {
                                         controller.formKey?.currentState
                                             ?.save();
+                                        //if is update is true update word else add new word
 
-                                      await  controller.addWord();
+                                      await  controller.addOrUpdate();
                                       Get.back();
 
 
@@ -235,7 +236,7 @@ class DictionarForm extends StatelessWidget {
                                       Get.back();
                                     },
                                     //  icon: Icon(Icons.add),
-                                    child: Text("SUBMIT"),
+                                    child:controller.isUpdate==true?Text("UPDATE"): Text("SUBMIT"),
                                   ),
                                 ),
                               )

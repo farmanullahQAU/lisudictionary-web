@@ -10,10 +10,11 @@ class TxtField extends StatelessWidget {
   String? labelText;
   Function? validator;
   Function? onSaved;
+  bool? isOutlined;
 
   TextEditingController? controller;
 
-   TxtField({Key? key,this.suffixIcon,this.prefixIcon,this.labelText,this.controller,this.hintText,this.validator,this.onSaved}) : super(key: key);
+   TxtField({Key? key,this.suffixIcon,this.prefixIcon,this.labelText,this.controller,this.hintText,this.validator,this.onSaved,this.isOutlined=false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class TxtField extends StatelessWidget {
               filled: true,
             fillColor: bgColor,
              hoverColor: bgColor,
-             //  border: OutlineInputBorder(),
+              border:this.isOutlined==true? OutlineInputBorder():null,
            //   icon: Icon(Icons.favorite),
               labelText: this.labelText,
             hintText: this.hintText,
