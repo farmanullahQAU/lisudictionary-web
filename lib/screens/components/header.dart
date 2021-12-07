@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lisudictionary_web/controllers/MenuController.dart';
 import 'package:lisudictionary_web/controllers/user_controller.dart';
@@ -29,13 +27,13 @@ class Header extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-   //     Expanded(child: SearchField()),
         ProfileCard()
       ],
     );
   }
 }
 
+//add admin or contributor name and role card
 class ProfileCard extends StatelessWidget {
   const ProfileCard({
     Key? key,
@@ -60,50 +58,50 @@ class ProfileCard extends StatelessWidget {
           //   "assets/images/profile_pic.png",
           //   height: 38,
           // ),
-          CircleAvatar(child: Icon(Icons.person),),
+          CircleAvatar(
+            child: Icon(Icons.person),
+          ),
           if (!Responsive.isMobile(context))
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child:Get.find<UserController>().currentUser!=null? Text(Get.find<UserController>().currentUser?.name??""):
-              Text("Ahsi")
-              ,
+              child: Get.find<UserController>().currentUser != null
+                  ? Column(
+                      children: [
+                        Text(
+                            Get.find<UserController>().currentUser?.name ?? ""),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.circle,
+                              color: Colors.green,
+                              size: 10,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Get.find<UserController>().isAdmin() == true
+                                ? Text(
+                                    "Admin",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                            fontSize: 10, color: Colors.cyan),
+                                  )
+                                : Text("Contributor",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2
+                                        ?.copyWith(fontSize: 10))
+                          ],
+                        ),
+                      ],
+                    )
+                  : Text("..."),
             ),
           Icon(Icons.keyboard_arrow_down),
         ],
-      ),
-    );
-  }
-}
-
-class SearchField extends StatelessWidget {
-  const SearchField({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: "Search",
-        fillColor: secondaryColor,
-        filled: true,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-        suffixIcon: InkWell(
-          onTap: () {},
-          child: Container(
-            padding: EdgeInsets.all(defaultPadding * 0.75),
-            margin: EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-            decoration: BoxDecoration(
-              color: primaryColor,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
-            child: SvgPicture.asset("assets/icons/Search.svg"),
-          ),
-        ),
       ),
     );
   }

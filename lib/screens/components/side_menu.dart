@@ -6,8 +6,6 @@ import 'package:get/get.dart';
 import 'package:lisudictionary_web/core/services/auth_services.dart';
 import 'package:lisudictionary_web/core/services/get_storage_services.dart';
 
-import '../../profile.dart';
-
 class SideMenu extends StatelessWidget {
   const SideMenu({
     Key? key,
@@ -19,53 +17,49 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-         //   child: Image.asset("assets/images/logo.png"),
+            //   child: Image.asset("assets/images/logo.png"),
             child: Text('LISU DICTIONARY'),
           ),
           DrawerListTile(
             title: "Dashboard",
             svgSrc: "assets/icons/menu_dashbord.svg",
             press: () async {
-
-
-            await  FirebaseFirestore.instance.collection("users").doc("lll").set({"name":"asf"});
+              await FirebaseFirestore.instance
+                  .collection("users")
+                  .doc("lll")
+                  .set({"name": "asf"});
             },
           ),
-
-
-
-
           DrawerListTile(
             title: "Profile",
             svgSrc: "assets/icons/menu_profile.svg",
             press: () {
               BotToast.showAttachedWidget(
                   attachedBuilder: (_) => Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.favorite,
-                        color: Colors.redAccent,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.favorite,
+                            color: Colors.redAccent,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
                   duration: Duration(seconds: 2),
                   target: Offset(520, 520));
 
-     //      Get.to(ProfileView());
+              //      Get.to(ProfileView());
             },
           ),
           DrawerListTile(
             title: "Logout",
             svgSrc: "assets/icons/menu_setting.svg",
             press: () {
-
-
               BotToast.showLoading();
               Future.delayed(Duration(seconds: 2)).then((value) async {
-await Get.find<AuthService>().signOut();
+                await Get.find<AuthService>().signOut();
 
-              BotToast.closeAllLoading();
+                BotToast.closeAllLoading();
+                Get.offNamed("/");
               });
             },
           ),

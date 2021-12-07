@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lisudictionary_web/core/services/auth_services.dart';
 import 'package:lisudictionary_web/core/services/get_storage_services.dart';
 import 'package:lisudictionary_web/pages.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import 'binder.dart';
 import 'constants.dart';
@@ -26,6 +27,7 @@ void initServices() async {
 Future<void> main() async {
 
   //initializing all service before app starts
+  setPathUrlStrategy();
    initServices();
   runApp(MyApp());
 }
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
         navigatorObservers: [BotToastNavigatorObserver()],
       title: "Lisu Dictionary",
       initialBinding: Binder(),
-      initialRoute: "/splash",
+      initialRoute: "/",
       getPages: pages,
       smartManagement: SmartManagement.keepFactory,
       defaultTransition: Transition.fadeIn,

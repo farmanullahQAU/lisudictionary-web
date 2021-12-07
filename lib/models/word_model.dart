@@ -1,5 +1,3 @@
-
-
 // class UserModel {
 //   String? id;
 //   String? name;
@@ -49,10 +47,19 @@
 //     };
 //   }
 // }
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lisudictionary_web/models/user_model.dart';
+
 class Word {
   String? id;
-
+  List<String>? favoriteList;
+  //user who has added the word
+  String? userId;
+  String? authId;
+  DateTime? dateAdded;
   String? lisuDefinition;
+  UserModel? userModel; //user who has added the word
+
   String? engDefinition;
   String? burmerDefinition;
   List<String>? engExamples;
@@ -62,46 +69,62 @@ class Word {
   String? word;
   bool? isVerified;
 
-  Word({
-    this.id,
-    this.isVerified,
-    this.engDefinition,
-    this.burmerDefinition,
-    this.engExamples,
-    this.burmerExamples,
-    this.lisuDefinition,
-    this.word,
-    this.lisuExamples});
+  Word(
+      {this.id,
+      this.favoriteList,
+      this.userId,
+      this.userModel,
+      this.isVerified,
+      this.engDefinition,
+      this.burmerDefinition,
+      this.engExamples,
+      this.burmerExamples,
+      this.lisuDefinition,
+      this.word,
+      this.lisuExamples});
 
-
-  Word.fromJson(Map data, String wordId,) {
-    id=wordId;
-    word=data["word"];
+  Word.fromJson(
+    Map data,
+    String wordId,
+  ) {
+    Timestamp timeStamp = data["dateAdded"] ?? null;
+    id = wordId;
+    userId = userId ?? null;
+    dateAdded = timeStamp.toDate();
+    word = data["word"];
     isVerified = data["isVerified"];
     engDefinition = data["engDefinition"];
     engExamples =
-    data["engExamples"] != null ? List.from(data["engExamples"]) : null;
+        data["engExamples"] != null ? List.from(data["engExamples"]) : null;
     lisuDefinition = data["lisuDefinition"];
     lisuExamples =
-    data["lisuExamples"] != null ? List.from(data["lisuExamples"]) : null;
+        data["lisuExamples"] != null ? List.from(data["lisuExamples"]) : null;
 
     burmerDefinition = data["burmerDefinition"] ?? "";
-    burmerExamples =
-    data["burmerExamples"] != null ? List.from(data["burmerExamples"]) : null;
+    burmerExamples = data["burmerExamples"] != null
+        ? List.from(data["burmerExamples"])
+        : null;
+    data["userModel"] != null
+        ? UserModel.fromJson(data["userModel"], userModel?.id ?? "")
+        : null;
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'userModel': userModel?.toMap() ?? null,
+      "dateAdded": dateAdded ?? Timestamp.fromDate(DateTime.now()),
       'isVerified': isVerified,
-      'engDefinition':engDefinition,
+      'engDefinition': engDefinition,
       'engExamples': engExamples ?? null,
-      'lisuDefinition': lisuDefinition??"",
-      'lisuExamples':lisuExamples??null,
+      'lisuDefinition': lisuDefinition ?? "",
+      'lisuExamples': lisuExamples ?? null,
+      'burmerDefinition': burmerDefinition ?? "",
+      'burmerExamples': burmerExamples ?? null,
+      'word': word ?? "",
+      "userId": userId ?? null,
 
-      'burmerDefinition':burmerDefinition??"",
-      'burmerExamples':burmerExamples??null,
-      'word':word??""
-
+      //contains id of user who have added this word as favorite
+      'favoriteList': favoriteList ?? [],
     };
   }
 }

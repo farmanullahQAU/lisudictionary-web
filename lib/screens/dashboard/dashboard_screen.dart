@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lisudictionary_web/screens/components/header.dart';
+import 'package:lisudictionary_web/screens/components/recent_files.dart';
 
 import '../../constants.dart';
 import '../../responsive.dart';
-import 'components/header.dart';
+import '../components/my_fields.dart';
 
-import 'components/my_fields.dart';
-import 'components/recent_files.dart';
-
+//add mobile or desktop view
 class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,18 +24,14 @@ class DashboardScreen extends StatelessWidget {
                   flex: 5,
                   child: Column(
                     children: [
-                    MyFiles(),
+                      MyFiles(),
                       SizedBox(height: defaultPadding),
                       WordsTable(),
                       if (Responsive.isMobile(context))
                         SizedBox(height: defaultPadding),
-                   //   if (Responsive.isMobile(context)) StarageDetails(),
                     ],
                   ),
                 ),
-
-                // On Mobile means if the screen is less than 850 we dont want to show it
-
               ],
             )
           ],
