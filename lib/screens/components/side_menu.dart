@@ -23,12 +23,7 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Dashboard",
             svgSrc: "assets/icons/menu_dashbord.svg",
-            press: () async {
-              await FirebaseFirestore.instance
-                  .collection("users")
-                  .doc("lll")
-                  .set({"name": "asf"});
-            },
+            press: () async {},
           ),
           DrawerListTile(
             title: "Profile",
